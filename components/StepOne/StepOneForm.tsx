@@ -1,9 +1,9 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { read, utils } from 'xlsx';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { object, z } from 'zod';
+import { z } from 'zod';
 import {
   Form,
   FormControl,
@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '../ui/button';
+import { readFile } from 'fs';
 
 const formSchema = z.object({
   fileDetails: z.any().refine(
@@ -27,7 +28,7 @@ const formSchema = z.object({
 });
 
 export default function StepOneForm() {
-  const [excelData, setExcelData] = useState<any[]>([]);
+  const [excelData, setExcelData] = useState<any>([]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -38,19 +39,17 @@ export default function StepOneForm() {
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {};
 
-  const onSubmitFile = (e: any) => {
-    let selectedFile = e.target.files[0];
-    if (selectedFile) {
-      let reader = new FileReader();
-      reader.readAsArrayBuffer(selectedFile);
-      reader.onload = (e) => {
-        const result = e.target?.result;
-        const wb = read(result);
-        const ws = wb.Sheets[wb.SheetNames[0]];
-        const data = utils.sheet_to_json(ws);
-        setExcelData(data);
-      };
-    }
+  const onSubmitFile = async (e: any) => {
+    const selectedFile = e.target.files[0];
+    if (!selectedFile) return;
+
+    const data = await selectedFile.arrayBuffer();
+    const wb = read(data);
+    const ws = wb.Sheets[wb.SheetNames[0]];
+    const res = utils.sheet_to_json(ws, { header: 1 });
+    setExcelData(res);
+    console.log(res);
+    console.log(excelData);
   };
 
   return (
@@ -64,7 +63,13 @@ export default function StepOneForm() {
               <FormItem>
                 <FormLabel>Виберіть файл з деталями.</FormLabel>
                 <FormControl>
-                  <Input accept=".xlsx,.csv,.xls" type="file" {...field} onChange={onSubmitFile} />
+                  <Input
+                    accept=".xlsx,.csv,.xls"
+                    type="file"
+                    multiple={false}
+                    {...field}
+                    onChange={onSubmitFile}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -74,21 +79,26 @@ export default function StepOneForm() {
         </form>
       </Form>
       <div>
-        {excelData.length > 0 ? (
+        {excelData[0] ? (
           <div>
             <h1></h1>
             <table className="table">
               <thead>
                 <tr>
-                  {Object.keys(excelData[0]).map((key) => (
-                    <th key={key}>{key}</th>
-                  ))}
+                  {excelData.map(
+                    (
+                      x: any,
+                      index: number, // Додано параметр index
+                    ) => (
+                      <th key={index}>{x}</th> // Повернуто JSX елемент
+                    ),
+                  )}
                 </tr>
               </thead>
             </table>
           </div>
         ) : (
-          <h1>Нема данни</h1>
+          <h1>Немає даних</h1>
         )}
       </div>
     </>
