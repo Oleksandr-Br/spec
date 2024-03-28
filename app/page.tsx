@@ -1,3 +1,4 @@
+import TableResult from '@/components/TableResult/TableResult';
 import StepOneForm from '../components/StepOne/StepOneForm';
 
 export default function Home() {
@@ -5,6 +6,7 @@ export default function Home() {
     <main className="flex min-h-screen flex-col items-center p-24">
       <h1>NEXT</h1>
       <StepOneForm />
+      <TableResult />
     </main>
   );
 }

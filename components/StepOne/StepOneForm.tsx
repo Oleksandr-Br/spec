@@ -14,7 +14,6 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '../ui/button';
-import { readFile } from 'fs';
 
 const formSchema = z.object({
   fileDetails: z.any().refine(
@@ -85,7 +84,7 @@ export default function StepOneForm() {
             <table className="table">
               <thead>
                 <tr>
-                  {excelData.map(
+                  {excelData[0].map(
                     (
                       x: any,
                       index: number, // Додано параметр index
