@@ -1,3 +1,4 @@
+'use client';
 import {
   Table,
   TableBody,
@@ -7,8 +8,11 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { useDetails } from '@/store/zustand.store';
 
 export default function TableResult() {
+  const details = useDetails((state) => state.details);
+
   return (
     <>
       <Table>
@@ -51,33 +55,17 @@ export default function TableResult() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  <TableRow>
-                    <TableCell>1</TableCell>
-                    <TableCell>Криша</TableCell>
-                    <TableCell>500</TableCell>
-                    <TableCell>100</TableCell>
-                    <TableCell>1</TableCell>
-                    <TableCell>Колір</TableCell>
-                    <TableCell>1</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>1</TableCell>
-                    <TableCell>Криша</TableCell>
-                    <TableCell>500</TableCell>
-                    <TableCell>100</TableCell>
-                    <TableCell>1</TableCell>
-                    <TableCell>Колір</TableCell>
-                    <TableCell>1</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>1</TableCell>
-                    <TableCell>Криша</TableCell>
-                    <TableCell>500</TableCell>
-                    <TableCell>100</TableCell>
-                    <TableCell>1</TableCell>
-                    <TableCell>Колір</TableCell>
-                    <TableCell>1</TableCell>
-                  </TableRow>
+                  {details.map((item, key) => (
+                    <TableRow key={key}>
+                      <TableCell>{item[0]}</TableCell>
+                      <TableCell>{item[1]}</TableCell>
+                      <TableCell>{item[2]}</TableCell>
+                      <TableCell>{item[3]}</TableCell>
+                      <TableCell>{item[4]}</TableCell>
+                      <TableCell>{item[5]}</TableCell>
+                      <TableCell>{item[6]}</TableCell>
+                    </TableRow>
+                  ))}
                 </TableBody>
               </Table>
             </TableCell>

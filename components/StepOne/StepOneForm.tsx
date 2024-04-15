@@ -1,5 +1,4 @@
 'use client';
-import React, { useEffect, useState } from 'react';
 import { read, utils } from 'xlsx';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -14,6 +13,8 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '../ui/button';
+import { Detail, useDetails } from '@/store/zustand.store';
+import useReadAndAddDetails from '@/server/readDataFromExel';
 
 const formSchema = z.object({
   fileDetails: z.any().refine(
@@ -27,7 +28,8 @@ const formSchema = z.object({
 });
 
 export default function StepOneForm() {
-  const [excelData, setExcelData] = useState<any>([]);
+  const details = useDetails((state) => state.details);
+  const readAndAddDetails = useReadAndAddDetails();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -45,10 +47,10 @@ export default function StepOneForm() {
     const data = await selectedFile.arrayBuffer();
     const wb = read(data);
     const ws = wb.Sheets[wb.SheetNames[0]];
-    const res = utils.sheet_to_json(ws, { header: 1 });
-    setExcelData(res);
+    const res: Detail[] = utils.sheet_to_json(ws, { header: 1 });
+
     console.log(res);
-    console.log(excelData);
+    if (res) readAndAddDetails(res);
   };
 
   return (
@@ -77,29 +79,6 @@ export default function StepOneForm() {
           <Button type="submit">Submit</Button>
         </form>
       </Form>
-      <div>
-        {excelData[0] ? (
-          <div>
-            <h1></h1>
-            <table className="table">
-              <thead>
-                <tr>
-                  {excelData[0].map(
-                    (
-                      x: any,
-                      index: number, // Додано параметр index
-                    ) => (
-                      <th key={index}>{x}</th> // Повернуто JSX елемент
-                    ),
-                  )}
-                </tr>
-              </thead>
-            </table>
-          </div>
-        ) : (
-          <h1>Немає даних</h1>
-        )}
-      </div>
     </>
   );
 }
