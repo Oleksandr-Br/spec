@@ -9,9 +9,17 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { useDetails } from '@/store/zustand.store';
+import XLSX from 'xlsx';
 
 export default function TableResult() {
   const details = useDetails((state) => state.details);
+
+  const OnDown = () => {
+    const worksheet = XLSX.utils.json_to_sheet(details);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Dates');
+    XLSX.writeFile(workbook, 'Presidents.xlsx', { compression: true });
+  };
 
   return (
     <>
@@ -77,6 +85,10 @@ export default function TableResult() {
           </TableRow>
         </TableBody>
       </Table>
+
+      <button className="border" onClick={OnDown}>
+        Down
+      </button>
     </>
   );
 }
