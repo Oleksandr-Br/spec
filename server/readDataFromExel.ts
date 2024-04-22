@@ -5,6 +5,7 @@ const useReadAndAddDetails = () => {
 
   const readAndAddDetails = (items: Detail[]) => {
     addItems(items);
+    console.log(items);
   };
 
   return readAndAddDetails;

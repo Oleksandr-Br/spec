@@ -71,7 +71,7 @@ export default function TableResult() {
                       <TableCell>{item[3]}</TableCell>
                       <TableCell>{item[4]}</TableCell>
                       <TableCell>{item[5]}</TableCell>
-                      <TableCell>{item[6]}</TableCell>
+                      <TableCell>{item[11]}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -79,9 +79,77 @@ export default function TableResult() {
             </TableCell>
           </TableRow>
           <TableRow>
-            <TableCell className="font-medium">INV001</TableCell>
-            <TableCell>Paid</TableCell>
-            <TableCell>Credit Card</TableCell>
+            <TableCell className="font-medium">2</TableCell>
+            <TableCell>Поклейка кромки</TableCell>
+            <TableCell className="p-0">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="w-[20px]">№</TableHead>
+                    <TableHead className="text-center text-black">Деталь</TableHead>
+                    <TableHead className="text-center text-black">
+                      Кромка по довжині з верху
+                    </TableHead>
+                    <TableHead className="text-center text-black">
+                      Кромка по довжині з низу
+                    </TableHead>
+                    <TableHead className="text-center text-black">
+                      Кромка по ширині з ліва
+                    </TableHead>
+                    <TableHead className="text-center text-black">
+                      Кромка по ширині з права
+                    </TableHead>
+                    <TableHead className="text-center text-black">( * ) Поворот</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {details.map((item, key) => (
+                    <TableRow key={key}>
+                      <TableCell>{item[0]}</TableCell>
+                      <TableCell>{item[1]}</TableCell>
+                      <TableCell>{item[6]}</TableCell>
+                      <TableCell>{item[7]}</TableCell>
+                      <TableCell>{item[8]}</TableCell>
+                      <TableCell>{item[9]}</TableCell>
+                      <TableCell>{item[10]}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell className="font-medium">3</TableCell>
+            <TableCell>Фурнітура виробу</TableCell>
+            <TableCell className="p-0">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="w-[20px]">№</TableHead>
+                    <TableHead className="text-center text-black">Назва</TableHead>
+                    <TableHead className="text-center text-black">К-ть</TableHead>
+                    <TableHead className="text-center text-black">Од.Виміру</TableHead>
+                    <TableHead className="text-center text-black">Колір</TableHead>
+                    <TableHead className="text-center text-black">Літера</TableHead>
+                    <TableHead className="text-center text-black">Примітка</TableHead>
+                    <TableHead className="text-center text-black">Пакування</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {details.map((item, key) => (
+                    <TableRow key={key}>
+                      <TableCell>{item[0]}</TableCell>
+                      <TableCell>{item[1]}</TableCell>
+                      <TableCell>{item[6]}</TableCell>
+                      <TableCell>{item[7]}</TableCell>
+                      <TableCell>{item[8]}</TableCell>
+                      <TableCell>{item[9]}</TableCell>
+                      <TableCell>{item[10]}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableCell>
           </TableRow>
         </TableBody>
       </Table>
