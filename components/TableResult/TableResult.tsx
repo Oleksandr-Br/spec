@@ -151,6 +151,11 @@ export default function TableResult() {
               </Table>
             </TableCell>
           </TableRow>
+          <TableRow>
+            <TableCell className="font-medium">4</TableCell>
+            <TableCell>Загальна к-ть місць</TableCell>
+            <TableCell className="p-0 text-center">10 Коробка</TableCell>
+          </TableRow>
         </TableBody>
       </Table>
 
